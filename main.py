@@ -12,7 +12,7 @@ class DataRecorderApp:
         self.root.title("鸣潮声骸强化词条统计")
 
         self.data_counts = defaultdict(int)
-        self.last_operations = deque()
+        self.last_operations = deque(maxlen=20)
         self.load_data()
 
         self.create_widgets()
@@ -63,6 +63,9 @@ class DataRecorderApp:
 
     def add_data(self, data_type):
         current_time = time.time()
+        if len(self.last_operations) == self.last_operations.maxlen:
+            operation_time, operation_data_type = self.last_operations.popleft()
+            self.data_counts[operation_data_type] -= 1
         self.last_operations.append((current_time, data_type))
         self.data_counts[data_type] += 1
         self.update_probabilities()
@@ -104,6 +107,7 @@ class DataRecorderApp:
                     saved_operations = json.load(file)
                 for operation in saved_operations:
                     _, data_type = operation
+                    self.last_operations.append(operation)
                     self.data_counts[data_type] += 1
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to load data: {e}")
