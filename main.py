@@ -12,7 +12,7 @@ class DataRecorderApp:
         self.root.title("鸣潮声骸强化词条统计")
 
         self.data_counts = defaultdict(int)
-        self.last_operations = deque(maxlen=100)
+        self.last_operations = deque()
         self.load_data()
 
         self.create_widgets()
@@ -49,7 +49,7 @@ class DataRecorderApp:
         self.probabilities_tree = ttk.Treeview(self.table_frame, columns=("name", "count", "probability"), show="headings", height=14)
         self.probabilities_tree.heading("name", text="声骸词条")
         self.probabilities_tree.heading("count", text="出现次数")
-        self.probabilities_tree.heading("probability", text="出现概率")
+        self.probabilities_tree.heading("probability", text="出现比例")
 
         vsb = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.probabilities_tree.yview)
         hsb = ttk.Scrollbar(self.table_frame, orient="horizontal", command=self.probabilities_tree.xview)
