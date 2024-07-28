@@ -118,6 +118,7 @@ class DataRecorderApp:
             self.probabilities_tree.delete(row)
 
         data_list = [(self.data_name[i], self.data_counts[self.data_name[i]]) for i in range(1, 14)]
+        data_list.append(('总强化次数', total_counts))
 
         if self.sort_var.get() == "升序":
             data_list.sort(key=lambda x: x[1] / total_counts if total_counts > 0 else 0)
